@@ -1,7 +1,11 @@
 from typing import List
 from fastapi import APIRouter, HTTPException
 
-from app.api.models import OrderOut, OrderIn, OrderUpdate
+from app.api.models import (
+    OrderOut,
+    OrderIn,
+    OrderUpdate,
+)
 from app.api import manager
 from app.api.service import is_cast_present
 
@@ -59,14 +63,14 @@ async def update_order(id: int, payload: OrderUpdate):
                     detail=f"Cast with given id:{cast_id} not found",
                 )
 
-    order_in_db = OrderIn(**delivery)
+    order_in_db = OrderIn(**order)
     updated_order = order_in_db.copy(update=update_data)
     return await manager.update(id, updated_order)
 
 
 @ordersapi.delete("/{id}/", response_model=None)
-async def delete_delivery(id: int):
-    delivery = await manager.get_by(id)
-    if not delivery:
+async def delete_order(id: int):
+    order = await manager.get_by(id)
+    if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     return await manager.delete(id)

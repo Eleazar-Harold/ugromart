@@ -1,6 +1,7 @@
 from app.api.models import OrderIn
 from app.api.db import orders, database
 
+
 async def create(payload: OrderIn):
     query = orders.insert().values(**payload.dict())
     return await database.execute(query=query)
