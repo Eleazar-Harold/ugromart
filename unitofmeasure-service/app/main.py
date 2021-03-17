@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.unitofmeasure import unitofmeasures
+from app.api.unitofmeasure import uomsapi
 from app.api.db import metadata, database, engine
 
 metadata.create_all(engine)
@@ -21,7 +21,7 @@ async def shutdown():
 
 
 app.include_router(
-    unitofmeasures,
+    uomsapi,
     prefix="/api/v1/unitofmeasures",
     tags=["unitofmeasures"],
 )

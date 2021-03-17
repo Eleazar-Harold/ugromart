@@ -1,4 +1,4 @@
-from app.api.models import UomIn, UomOut, UomUpdate
+from app.api.models import UomIn
 from app.api.db import unitofmeasures, database
 
 

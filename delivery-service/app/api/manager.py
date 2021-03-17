@@ -1,4 +1,4 @@
-from app.api.models import DeliveryIn, DeliveryOut, DeliveryUpdate
+from app.api.models import DeliveryIn
 from app.api.db import deliveries, database
 
 

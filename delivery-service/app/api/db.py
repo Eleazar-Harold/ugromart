@@ -5,7 +5,6 @@ from sqlalchemy import (
     Column,
     create_engine,
     Date,
-    DateTime,
     Decimal,
     Integer,
     MetaData,

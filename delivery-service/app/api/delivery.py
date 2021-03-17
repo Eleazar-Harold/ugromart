@@ -30,7 +30,7 @@ async def get_deliveries():
 
 @deliveries.get("/{id}/", response_model=DeliveryOut)
 async def get_delivery(id: int):
-    deliveries = await manager.get_by(id)
+    delivery = await manager.get_by(id)
     if not delivery:
         raise HTTPException(
             status_code=404,
