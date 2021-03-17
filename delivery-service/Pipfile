@@ -4,6 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+flake8 = "*"
+autoflake = "*"
+black = "==20.8b0"
+isort = "==5.7.0"
 
 [packages]
 fastapi = {extras = ["all"],version = "*"}

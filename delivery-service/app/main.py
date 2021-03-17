@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.delivery import deliveries
+from app.api.delivery import deliveriesapi
 from app.api.db import metadata, database, engine
 
 metadata.create_all(engine)
@@ -21,7 +21,7 @@ async def shutdown():
 
 
 app.include_router(
-    deliveries,
+    deliveriesapi,
     prefix="/api/v1/deliveries",
     tags=["deliveries"],
 )

@@ -5,10 +5,10 @@ from app.api.models import DeliveryOut, DeliveryIn, DeliveryUpdate
 from app.api import manager
 from app.api.service import is_cast_present
 
-deliveries = APIRouter()
+deliveriesapi = APIRouter()
 
 
-@deliveries.post("/", response_model=DeliveryOut, status_code=201)
+@deliveriesapi.post("/", response_model=DeliveryOut, status_code=201)
 async def create_delivery(payload: DeliveryIn):
     # to be revisited
     for cast_id in payload.casts_id:
@@ -23,12 +23,12 @@ async def create_delivery(payload: DeliveryIn):
     return response
 
 
-@deliveries.get("/", response_model=List[DeliveryOut])
+@deliveriesapi.get("/", response_model=List[DeliveryOut])
 async def get_deliveries():
     return await manager.get()
 
 
-@deliveries.get("/{id}/", response_model=DeliveryOut)
+@deliveriesapi.get("/{id}/", response_model=DeliveryOut)
 async def get_delivery(id: int):
     delivery = await manager.get_by(id)
     if not delivery:
@@ -39,7 +39,7 @@ async def get_delivery(id: int):
     return delivery
 
 
-@deliveries.put("/{id}/", response_model=DeliveryOut)
+@deliveriesapi.put("/{id}/", response_model=DeliveryOut)
 async def update_delivery(id: int, payload: DeliveryUpdate):
     delivery = await manager.get_by(id)
     if not delivery:
@@ -64,7 +64,7 @@ async def update_delivery(id: int, payload: DeliveryUpdate):
     return await manager.update(id, updated_delivery)
 
 
-@deliveries.delete("/{id}/", response_model=None)
+@deliveriesapi.delete("/{id}/", response_model=None)
 async def delete_delivery(id: int):
     delivery = await manager.get_by(id)
     if not delivery:
