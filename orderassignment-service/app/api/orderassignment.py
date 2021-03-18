@@ -7,20 +7,18 @@ from app.api.models import (
     OrderAssignmentUpdate,
 )
 from app.api import manager
-from app.api.service import is_cast_present
+from app.api.service import is_order_present
 
 orderassignmentsapi = APIRouter()
 
 
 @orderassignmentsapi.post("/", response_model=OrderAssignmentOut, status_code=201)
 async def create_assignment(payload: OrderAssignmentIn):
-    # to be revisited
-    for cast_id in payload.casts_id:
-        if not is_cast_present(cast_id):
-            raise HTTPException(
-                status_code=404,
-                detail=f"Cast with given id:{cast_id} not found",
-            )
+    if not is_order_present(payload.order_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Order with given id:{payload.order_id} not found",
+        )
 
     assignment_id = await manager.create(payload)
     response = {"id": assignment_id, **payload.dict()}
