@@ -18,15 +18,15 @@ class CategoryUpdate(CategoryIn):
     image_url: Optional[str] = None
 
 
-# class ProductCategoryIn(BaseModel):
-#     category_id: int
-#     product_id: int
+class ProductCategoryIn(BaseModel):
+    category_id: int
+    product_id: int
 
 
-# class ProductCategoryOut(ProductCategoryIn):
-#     id: int
+class ProductCategoryOut(ProductCategoryIn):
+    pass
 
 
-# class ProductCategoryUpdate(ProductCategoryIn):
-#     category_id: Optional[int] = None
-#     product_id: Optional[int] = None
+class ProductCategoryUpdate(ProductCategoryIn):
+    category_id: Optional[int] = None
+    product_id: Optional[int] = None
