@@ -7,20 +7,21 @@ from app.api.models import (
     ProductItemUpdate,
 )
 from app.api import manager
-from app.api.service import is_cast_present
+from app.api.service import (
+    get_product,
+    is_product_present,
+)
 
 productitemsapi = APIRouter()
 
 
 @productitemsapi.post("/", response_model=ProductItemOut, status_code=201)
 async def create_productitems(payload: ProductItemIn):
-    # to be revisited
-    for cast_id in payload.casts_id:
-        if not is_cast_present(cast_id):
-            raise HTTPException(
-                status_code=404,
-                detail=f"Cast with given id:{cast_id} not found",
-            )
+    if not is_product_present(payload.product_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Product with given id:{payload.product_id} not found",
+        )
 
     productitem_id = await manager.create(payload)
     response = {"id": productitem_id, **payload.dict()}
@@ -38,7 +39,7 @@ async def get_productitem(id: int):
     if not productitem:
         raise HTTPException(
             status_code=404,
-            detail="Order item not found",
+            detail="Product item not found",
         )
     return productitem
 
@@ -49,19 +50,16 @@ async def update_productitem(id: int, payload: ProductItemUpdate):
     if not productitem:
         raise HTTPException(
             status_code=404,
-            detail="Order item not found",
+            detail="Product item not found",
         )
 
     update_data = payload.dict(exclude_unset=True)
 
-    # to be revisited
-    if "casts_id" in update_data:
-        for cast_id in payload.casts_id:
-            if not is_cast_present(cast_id):
-                raise HTTPException(
-                    status_code=404,
-                    detail=f"Cast with given id:{cast_id} not found",
-                )
+    if not is_product_present(payload.product_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Product with given id:{payload.product_id} not found",
+        )
 
     productitem_in_db = ProductItemIn(**productitem)
     updated_productitem = productitem_in_db.copy(update=update_data)
@@ -72,5 +70,5 @@ async def update_productitem(id: int, payload: ProductItemUpdate):
 async def delete_productitem(id: int):
     order = await manager.get_by(id)
     if not order:
-        raise HTTPException(status_code=404, detail="Order item not found")
+        raise HTTPException(status_code=404, detail="Product item not found")
     return await manager.delete(id)
