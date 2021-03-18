@@ -3,19 +3,34 @@ from fastapi import APIRouter, HTTPException
 
 from app.api.models import DeliveryOut, DeliveryIn, DeliveryUpdate
 from app.api import manager
-from app.api.service import is_cast_present
+from app.api.service import (
+    is_deliverystatus_present,
+    is_order_present,
+    is_payment_present,
+)
 
 deliveriesapi = APIRouter()
 
 
 @deliveriesapi.post("/", response_model=DeliveryOut, status_code=201)
 async def create_delivery(payload: DeliveryIn):
-    # to be revisited
-    for cast_id in payload.casts_id:
-        if not is_cast_present(cast_id):
+    if not is_deliverystatus_present(payload.delivery_status_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Delivery status with given id:{payload.delivery_status_id} not found",
+        )
+
+    if not is_order_present(payload.order_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Order with given id:{payload.order_id} not found",
+        )
+
+    for p_id in payload.payments_id:
+        if not is_payment_present(p_id):
             raise HTTPException(
                 status_code=404,
-                detail=f"Cast with given id:{cast_id} not found",
+                detail=f"Payment with given id:{pp_id} not found",
             )
 
     delivery_id = await manager.create(payload)
@@ -50,14 +65,24 @@ async def update_delivery(id: int, payload: DeliveryUpdate):
 
     update_data = payload.dict(exclude_unset=True)
 
-    # to be revisited
-    if "casts_id" in update_data:
-        for cast_id in payload.casts_id:
-            if not is_cast_present(cast_id):
-                raise HTTPException(
-                    status_code=404,
-                    detail=f"Cast with given id:{cast_id} not found",
-                )
+    if not is_deliverystatus_present(payload.delivery_status_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Delivery status with given id:{payload.delivery_status_id} not found",
+        )
+
+    if not is_order_present(payload.order_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Order with given id:{payload.order_id} not found",
+        )
+
+    for p_id in payload.payments_id:
+        if not is_payment_present(p_id):
+            raise HTTPException(
+                status_code=404,
+                detail=f"Payment with given id:{pp_id} not found",
+            )
 
     delivery_in_db = DeliveryIn(**delivery)
     updated_delivery = delivery_in_db.copy(update=update_data)
