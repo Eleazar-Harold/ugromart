@@ -3,7 +3,6 @@ import os
 from sqlalchemy import (
     Column,
     create_engine,
-    ForeignKey,
     Integer,
     MetaData,
     String,
