@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.deliveryconfirmation import deliveryconfirmationsapi
+from app.api.deliveryconfirmation import confirmationsapi
 from app.api.db import metadata, database, engine
 
 metadata.create_all(engine)
@@ -21,7 +21,7 @@ async def shutdown():
 
 
 app.include_router(
-    deliveryconfirmationsapi,
+    confirmationsapi,
     prefix="/api/v1/confirmations",
     tags=["confirmations"],
 )
