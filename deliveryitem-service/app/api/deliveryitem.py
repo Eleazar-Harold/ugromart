@@ -8,9 +8,6 @@ from app.api.models import (
 )
 from app.api import manager
 from app.api.service import (
-    get_delivery,
-    get_productitem,
-    get_uom,
     is_delivery_present,
     is_productitem_present,
     is_uom_present,
