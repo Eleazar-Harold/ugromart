@@ -7,20 +7,37 @@ from app.api.models import (
     DeliveryItemUpdate,
 )
 from app.api import manager
-from app.api.service import is_cast_present
+from app.api.service import (
+    get_delivery,
+    get_productitem,
+    get_uom,
+    is_delivery_present,
+    is_productitem_present,
+    is_uom_present,
+)
 
 deliveryitemsapi = APIRouter()
 
 
 @deliveryitemsapi.post("/", response_model=DeliveryItemOut, status_code=201)
 async def create_deliveryitems(payload: DeliveryItemIn):
-    # to be revisited
-    for cast_id in payload.casts_id:
-        if not is_cast_present(cast_id):
-            raise HTTPException(
-                status_code=404,
-                detail=f"Cast with given id:{cast_id} not found",
-            )
+    if not is_delivery_present(payload.delivery_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Delivery with given id:{payload.delivery_id} not found",
+        )
+
+    if not is_productitem_present(payload.productitem_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Product item with given id:{payload.productitem_id} not found",
+        )
+
+    if not is_uom_present(payload.uom_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Unit of measure with given id:{payload.uom_id} not found",
+        )
 
     deliveryitem_id = await manager.create(payload)
     response = {"id": deliveryitem_id, **payload.dict()}
@@ -54,14 +71,23 @@ async def update_deliveryitem(id: int, payload: DeliveryItemUpdate):
 
     update_data = payload.dict(exclude_unset=True)
 
-    # to be revisited
-    if "casts_id" in update_data:
-        for cast_id in payload.casts_id:
-            if not is_cast_present(cast_id):
-                raise HTTPException(
-                    status_code=404,
-                    detail=f"Cast with given id:{cast_id} not found",
-                )
+    if not is_delivery_present(payload.delivery_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Delivery with given id:{payload.delivery_id} not found",
+        )
+
+    if not is_productitem_present(payload.productitem_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Product item with given id:{payload.productitem_id} not found",
+        )
+
+    if not is_uom_present(payload.uom_id):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Unit of measure with given id:{payload.uom_id} not found",
+        )
 
     deliveryitem_in_db = DeliveryItemIn(**deliveryitem)
     updated_deliveryitem = deliveryitem_in_db.copy(update=update_data)
