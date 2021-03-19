@@ -25,12 +25,11 @@ variations = Table(
     Column("name", String, nullable=False, index=True),
 )
 
-product_variations = Table(
+productvariations = Table(
     "product_variation",
     metadata,
     Column("product_id", Integer, nullable=False, index=True),
     Column("variation_id", Integer, ForeignKey("variation.id"), index=True),
-    relationship("variation", lazy="joined", cascade=True),
 )
 
 database = Database(DATABASE_URI)

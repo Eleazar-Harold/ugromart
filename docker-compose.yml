@@ -266,6 +266,27 @@ services:
       - POSTGRES_USER=${PG_USER_UOMS}
       - POSTGRES_PASSWORD=${PG_PSWD_UOMS}
       - POSTGRES_DB=uom_db
+  
+  user_svc:
+    build: ./user-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./user-service/:/app/
+    ports:
+      - 7070:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_USR}:${PG_PSWD_USR}@user_db/user_db
+    depends_on:
+      - user_db
+
+  user_db:
+    image: postgres:alpine
+    volumes:
+      - data_user:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_USR}
+      - POSTGRES_PASSWORD=${PG_PSWD_USR}
+      - POSTGRES_DB=user_db
 
 
   nginx:
@@ -287,8 +308,10 @@ services:
       - productitem_svc
       - variation_svc
       - uom_svc
+      - user_svc
 
 volumes:
+  data_user:
   data_product:
   data_category:
   data_productitem:

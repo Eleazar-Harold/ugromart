@@ -26,7 +26,7 @@ async def create_category(payload: CategoryIn):
     return response
 
 
-@categoriesapi.post("/", response_model=ProductCategoryOut, status_code=201)
+@categoriesapi.post("/products", response_model=ProductCategoryOut, status_code=201)
 async def create_productcategory(payload: ProductCategoryIn):
     if not is_category_present(payload.category_id):
         raise HTTPException(
@@ -61,9 +61,9 @@ async def get_categories():
     return await manager.categories()
 
 
-@categoriesapi.get("/", response_model=List[ProductCategoryOut])
+@categoriesapi.get("/products", response_model=List[ProductCategoryOut])
 async def get_productcategories():
-    return await manager.productcategories()
+    return await manager.product_categories()
 
 
 @categoriesapi.get("/{id}/", response_model=CategoryOut)

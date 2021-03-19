@@ -1,5 +1,5 @@
 from app.api.models import CategoryIn, ProductCategoryIn
-from app.api.db import categories, database, products_categories
+from app.api.db import categories, database, productscategories
 
 
 async def create(payload: CategoryIn):
@@ -8,7 +8,7 @@ async def create(payload: CategoryIn):
 
 
 async def create(payload: ProductCategoryIn):
-    query = products_categories.insert().values(**payload.dict())
+    query = productscategories.insert().values(**payload.dict())
     return await database.execute(query=query)
 
 
@@ -17,8 +17,8 @@ async def categories():
     return await database.fetch_all(query=query)
 
 
-async def productcategories():
-    query = products_categories.select()
+async def product_categories():
+    query = productscategories.select()
     return await database.fetch_all(query=query)
 
 
@@ -28,9 +28,9 @@ async def category_by(id: int):
 
 
 async def get_by(category_id: int, product_id: int):
-    query = products_categories.select(
-        products_categories.c.category_id == category_id,
-        products_categories.c.product_id == product_id,
+    query = productscategories.select(
+        productscategories.c.category_id == category_id,
+        productscategories.c.product_id == product_id,
     )
     return await database.fetch_one(query=query)
 

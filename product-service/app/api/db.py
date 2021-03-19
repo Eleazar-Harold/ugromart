@@ -1,6 +1,7 @@
 import os
 
 from sqlalchemy import (
+    Boolean,
     Column,
     create_engine,
     Integer,
