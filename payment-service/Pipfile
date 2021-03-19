@@ -6,8 +6,11 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-fastapi = {extras = ["all"],version = "*"}
 databases = {extras = ["postgresql"],version = "*"}
+asyncpg = "*"
+fastapi = "*"
+sqlalchemy = "*"
+uvicorn = "*"
 
 [requires]
 python_version = "3.7"

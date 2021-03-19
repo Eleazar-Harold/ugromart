@@ -10,9 +10,12 @@ isort = "==5.7.0"
 autoflake = "*"
 
 [packages]
-fastapi = {extras = ["all"],version = "*"}
 databases = {extras = ["postgresql"],version = "*"}
 httpx = "==0.17.1"
+asyncpg = "*"
+fastapi = "*"
+sqlalchemy = "*"
+uvicorn = "*"
 
 [requires]
 python_version = "3.7"

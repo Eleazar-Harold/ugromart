@@ -1,8 +1,8 @@
 import os
 import httpx
 
-CATEGORY_SERVICE_URL = "http://localhost:8002/api/v1/orders/"
-PRODUCT_SERVICE_URL = "http://localhost:8002/api/v1/products/"
+CATEGORY_SERVICE_URL = "http://localhost:6002/api/v1/categories/"
+PRODUCT_SERVICE_URL = "http://localhost:6000/api/v1/products/"
 
 
 def is_category_present(category_id: int):

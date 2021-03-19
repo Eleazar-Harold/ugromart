@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 
 class DeliveryConfirmationIn(BaseModel):
     delivery_id: int
     code: str
-    expiry: date
+    expiry: datetime
 
 
 class DeliveryConfirmationOut(DeliveryConfirmationIn):
@@ -15,4 +16,4 @@ class DeliveryConfirmationOut(DeliveryConfirmationIn):
 class DeliveryConfirmationUpdate(DeliveryConfirmationIn):
     delivery_id: Optional[int] = None
     code: Optional[str] = None
-    expiry: Optional[date] = None
+    expiry: Optional[datetime] = None

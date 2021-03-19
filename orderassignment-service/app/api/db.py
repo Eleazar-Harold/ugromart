@@ -1,5 +1,5 @@
 import os
-import timezone
+from datetime import datetime
 
 from sqlalchemy import (
     Boolean,
@@ -23,7 +23,7 @@ orderassignments = Table(
     metadata,
     Column("id", Integer, primary_key=True),
     Column("order_id", Integer, nullable=False, index=True),
-    Column("sale_date", Date, nullable=False, index=True, default=timezone.now),
+    Column("sale_date", Date, nullable=False, index=True, default=datetime.now),
     Column("fulfilled", Boolean, default=False, nullable=False),
 )
 

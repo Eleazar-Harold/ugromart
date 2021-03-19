@@ -10,7 +10,7 @@ from sqlalchemy import (
     Table,
 )
 
-import timezone
+from datetime import datetime
 from databases import Database
 
 DATABASE_URI = os.getenv("DATABASE_URI")
@@ -22,7 +22,7 @@ deliveryconfirmations = Table(
     "delivery_confirmation",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("expiry", Date, nullable=False, index=True, default=timezone.now),
+    Column("expiry", Date, nullable=False, index=True, default=datetime.now),
     Column("code", String(100), nullable=False),
     Column("delivery_id", Integer),
 )

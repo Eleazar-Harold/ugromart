@@ -1,7 +1,7 @@
 import os
 import httpx
 
-PRODUCT_SERVICE_URL = "http://localhost:8002/api/v1/products/"
+PRODUCT_SERVICE_URL = "http://localhost:6000/api/v1/products/"
 
 
 def is_product_present(product_id: int):

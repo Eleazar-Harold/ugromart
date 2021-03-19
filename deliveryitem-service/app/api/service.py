@@ -1,9 +1,9 @@
 import os
 import httpx
 
-DELIVERY_SERVICE_URL = "http://localhost:8002/api/v1/deliveries/"
-PRODUCTITEM_SERVICE_URL = "http://localhost:8002/api/v1/productitems/"
-UOM_SERVICE_URL = "http://localhost:8002/api/v1/uoms/"
+DELIVERY_SERVICE_URL = "http://localhost:3000/api/v1/deliveries/"
+PRODUCTITEM_SERVICE_URL = "http://localhost:6004/api/v1/productitems/"
+UOM_SERVICE_URL = "http://localhost:7000/api/v1/unitofmeasures/"
 
 
 def is_delivery_present(delivery_id: int):

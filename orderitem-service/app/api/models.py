@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 
 class OrderItemIn(BaseModel):
@@ -9,7 +10,7 @@ class OrderItemIn(BaseModel):
     amount: float
     quantity: float
     unit_price: float
-    order_date: date
+    order_date: datetime
     fulfilled: bool
 
 
@@ -24,5 +25,5 @@ class OrderItemUpdate(OrderItemIn):
     amount: Optional[float] = None
     quantity: Optional[float] = None
     unit_price: Optional[float] = None
-    order_date: Optional[date] = None
+    order_date: Optional[datetime] = None
     fulfilled: Optional[bool] = None

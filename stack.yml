@@ -1,0 +1,188 @@
+version: '3.7'
+
+services:
+  delivery_svc:
+    build: ./delivery-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./delivery-service/:/app/
+    ports:
+      - 3000:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_DLVR}:${PG_PSWD_DLVR}@delivery_db/delivery_db
+      - ORDER_SERVICE_URL=${ORDER_SERVICE_URL}
+      - DELIVERYSTATUS_SERVICE_URL=${DELIVERYSTATUS_SERVICE_URL}
+      - PAYMENT_SERVICE_URL=${PAYMENT_SERVICE_URL}
+    depends_on:
+      - delivery_db
+
+  delivery_db:
+    image: postgres:alpine
+    volumes:
+      - data_delivery:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_DLVR}
+      - POSTGRES_PASSWORD=${PG_PSWD_DLVR}
+      - POSTGRES_DB=delivery_db
+
+  confirmation_svc:
+    build: ./deliveryconfirmation-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./deliveryconfirmation-service/:/app/
+    ports:
+      - 3002:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_DLVR}:${PG_PSWD_DLVR}@confirmation_db/confirmation_db
+      - DELIVERY_SERVICE_URL=${DELIVERY_SERVICE_URL}
+    depends_on:
+      - confirmation_db
+
+  confirmation_db:
+    image: postgres:alpine
+    volumes:
+      - data_confirmation:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_DLVR}
+      - POSTGRES_PASSWORD=${PG_PSWD_DLVR}
+      - POSTGRES_DB=confirmation_db
+
+  deliveryitem_svc:
+    build: ./deliveryitem-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./deliveryitem-service/:/app/
+    ports:
+      - 3004:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_DLVR}:${PG_PSWD_DLVR}@deliveryitem_db/deliveryitem_db
+      - DELIVERY_SERVICE_URL=${DELIVERY_SERVICE_URL}
+      - PRODUCTITEM_SERVICE_URL=${PRODUCTITEM_SERVICE_URL}
+      - UOM_SERVICE_URL=${UOM_SERVICE_URL}
+    depends_on:
+      - deliveryitem_db
+
+  deliveryitem_db:
+    image: postgres:alpine
+    volumes:
+      - data_deliveryitem:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_DLVR}
+      - POSTGRES_PASSWORD=${PG_PSWD_DLVR}
+      - POSTGRES_DB=deliveryitem_db
+
+  # deliverystatus_svc:
+  #   build: ./deliverystatus-service
+  #   command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+  #   volumes:
+  #     - ./deliverystatus-service/:/app/
+  #   ports:
+  #     - 3006:4000
+  #   environment:
+  #     - DATABASE_URI=postgresql://${PG_USER_DLVR}:${PG_PSWD_DLVR}@deliverystatus_db/deliverystatus_db
+  #     - DELIVERY_SERVICE_URL=${DELIVERY_SERVICE_URL}
+  #     - PRODUCTITEM_SERVICE_URL=${PRODUCTITEM_SERVICE_URL}
+  #     - UOM_SERVICE_URL=${UOM_SERVICE_URL}
+  #   depends_on:
+  #     - deliverystatus_db
+
+  # deliverystatus_db:
+  #   image: postgres:alpine
+  #   volumes:
+  #     - data_deliverystatus:/var/lib/postgresql/data/
+  #   environment:
+  #     - POSTGRES_USER=${PG_USER_DLVR}
+  #     - POSTGRES_PASSWORD=${PG_PSWD_DLVR}
+  #     - POSTGRES_DB=deliverystatus_db
+
+  order_svc:
+    build: ./order-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./order-service/:/app/
+    ports:
+      - 4000:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_ORDE}:${PG_PSWD_ORDE}@order_db/order_db
+    depends_on:
+      - order_db
+
+  order_db:
+    image: postgres:alpine
+    volumes:
+      - data_order:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_ORDE}
+      - POSTGRES_PASSWORD=${PG_PSWD_ORDE}
+      - POSTGRES_DB=order_db
+
+  assignment_svc:
+    build: ./orderassignment-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./orderassignment-service/:/app/
+    ports:
+      - 4002:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_ORDE}:${PG_PSWD_ORDE}@assignment_db/assignment_db
+      - ORDER_SERVICE_URL=${ORDER_SERVICE_URL}
+    depends_on:
+      - assignment_db
+
+  assignment_db:
+    image: postgres:alpine
+    volumes:
+      - data_orderassignment:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_ORDE}
+      - POSTGRES_PASSWORD=${PG_PSWD_ORDE}
+      - POSTGRES_DB=assignment_db
+  
+  orderitem_svc:
+    build: ./orderitem-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./orderitem-service/:/app/
+    ports:
+      - 4004:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_ORDE}:${PG_PSWD_ORDE}@orderitem_db/orderitem_db
+      - ORDER_SERVICE_URL=${ORDER_SERVICE_URL}
+      - PRODUCTITEM_SERVICE_URL=${PRODUCTITEM_SERVICE_URL}
+      - UOM_SERVICE_URL=${UOM_SERVICE_URL}
+    depends_on:
+      - orderitem_db
+
+  orderitem_db:
+    image: postgres:alpine
+    volumes:
+      - data_orderitem:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_ORDE}
+      - POSTGRES_PASSWORD=${PG_PSWD_ORDE}
+      - POSTGRES_DB=orderitem_db
+
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx_config.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - confirmation_svc
+      - delivery_svc
+      - deliveryitem_svc
+      # - deliverystatus_svc
+      - order_svc
+      - assignment_svc
+      - orderitem_svc
+
+volumes:
+  data_order:
+  data_orderitem:
+  data_orderassignment:
+  data_deliveryitem:
+  data_delivery:
+  data_confirmation:
+  data_deliverystatus:

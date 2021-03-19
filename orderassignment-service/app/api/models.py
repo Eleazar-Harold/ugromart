@@ -1,10 +1,11 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 
 class OrderAssignmentIn(BaseModel):
     order_id: int
-    sale_date: date
+    sale_date: datetime
     fulfilled: bool
 
 
@@ -14,5 +15,5 @@ class OrderAssignmentOut(OrderAssignmentIn):
 
 class OrderAssignmentUpdate(OrderAssignmentIn):
     order_id: Optional[int] = None
-    sale_date: Optional[date] = None
+    sale_date: Optional[datetime] = None
     fulfilled: Optional[bool] = None

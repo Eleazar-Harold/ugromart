@@ -1,8 +1,8 @@
 import os
 import httpx
 
-VARIATION_SERVICE_URL = "http://localhost:8002/api/v1/variations/"
-PRODUCT_SERVICE_URL = "http://localhost:8002/api/v1/products/"
+VARIATION_SERVICE_URL = "http://localhost:6006/api/v1/variations/"
+PRODUCT_SERVICE_URL = "http://localhost:6000/api/v1/products/"
 
 
 def is_variation_present(variation_id: int):
