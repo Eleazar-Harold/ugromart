@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 
 class DeliveryItemIn(BaseModel):
@@ -9,7 +10,7 @@ class DeliveryItemIn(BaseModel):
     amount: float
     quantity: float
     unit_price: float
-    delivery_date: date
+    delivery_date: datetime
 
 
 class DeliveryItemOut(DeliveryItemIn):

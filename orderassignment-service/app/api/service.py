@@ -1,7 +1,7 @@
 import os
 import httpx
 
-ORDER_SERVICE_URL = "http://localhost:8002/api/v1/orders/"
+ORDER_SERVICE_URL = "http://localhost:4000/api/v1/orders/"
 
 
 def is_order_present(order_id: int):

@@ -1,5 +1,5 @@
 import os
-import timezone
+from datetime import datetime
 
 from sqlalchemy import (
     Boolean,
@@ -25,10 +25,10 @@ orderitems = Table(
     Column("order_id", Integer, nullable=False, index=True),
     Column("productitem_id", Integer, nullable=False, index=True),
     Column("uom_id", Integer, nullable=False, index=True),
-    Column("amount", Decimal(10, 7), nullable=False),
+    Column("amount", DECIMAL(10, 7), nullable=False),
     Column("quantity", Numeric, nullable=False),
-    Column("unit_price", Decimal(10, 7), nullable=False),
-    Column("order_date", Date, nullable=False, index=True, default=timezone.now),
+    Column("unit_price", DECIMAL(10, 7), nullable=False),
+    Column("order_date", Date, nullable=False, index=True, default=datetime.now),
     Column("fulfilled", Boolean, default=False, nullable=False),
 )
 

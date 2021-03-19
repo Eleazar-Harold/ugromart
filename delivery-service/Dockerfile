@@ -1,17 +1,14 @@
-FROM python:3.8-slim
+FROM python:3.7.10-slim-stretch
 
 LABEL maintainer="eleazar.yewa.harold@gmail.com"
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update \
-    && apt-get install gcc -y \
-    && apt-get clean
-
 WORKDIR /app
+
+COPY . /app/
 
 RUN pip install --upgrade pip
 RUN pip install pipenv
 RUN pipenv install --system --deploy --ignore-pipfile
 
-COPY . /app/

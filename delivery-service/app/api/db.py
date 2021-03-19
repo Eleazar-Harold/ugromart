@@ -5,14 +5,14 @@ from sqlalchemy import (
     Column,
     create_engine,
     Date,
-    Decimal,
+    DECIMAL,
     Integer,
     MetaData,
     String,
     Table,
 )
 
-import timezone
+from datetime import datetime
 from databases import Database
 
 DATABASE_URI = os.getenv("DATABASE_URI")
@@ -24,9 +24,9 @@ deliveries = Table(
     "delivery",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("delivery_date", Date, nullable=False, index=True, default=timezone.now),
+    Column("delivery_date", Date, nullable=False, index=True, default=datetime.now),
     Column("delivery_no", String(50), nullable=False),
-    Column("amount", Decimal(10, 7), nullable=False),
+    Column("amount", DECIMAL(10, 7), nullable=False),
     Column("order_id", Integer),
     Column("delivery_status_id", Integer),
     Column("payments_id", ARRAY(Integer)),
