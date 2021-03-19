@@ -87,7 +87,7 @@
     ├── .gitignore
     ├── Makefile
     ├── nginx_config.conf
-    ├── stack.yml
+    ├── docker-compose.yml
 
 ```
 
