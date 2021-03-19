@@ -1,5 +1,5 @@
 from app.api.models import VariationIn, ProductVariationIn
-from app.api.db import variations, database, products_variations
+from app.api.db import variations, database, productvariations
 
 
 async def create(payload: VariationIn):
@@ -8,7 +8,7 @@ async def create(payload: VariationIn):
 
 
 async def create(payload: ProductVariationIn):
-    query = products_variations.insert().values(**payload.dict())
+    query = productvariations.insert().values(**payload.dict())
     return await database.execute(query=query)
 
 
@@ -17,8 +17,8 @@ async def variations():
     return await database.fetch_all(query=query)
 
 
-async def productsvariations():
-    query = products_variations.select()
+async def products_variations():
+    query = productvariations.select()
     return await database.fetch_all(query=query)
 
 
@@ -28,9 +28,9 @@ async def variation_by(id: int):
 
 
 async def get_by(variation_id: int, product_id: int):
-    query = products_variations.select(
-        products_variations.c.variation_id == variation_id,
-        products_variations.c.product_id == product_id,
+    query = productvariations.select(
+        productvariations.c.variation_id == variation_id,
+        productvariations.c.product_id == product_id,
     )
     return await database.fetch_one(query=query)
 

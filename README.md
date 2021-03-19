@@ -136,22 +136,22 @@ UOM_SERVICE_URL= "http://.../api/v1/unitofmeasures/"
 default http path: http://127.0.0.1/api/v1/{service}/docs
 ```
 ###### Service names
-* deliveries : ```from delivery-service```
-* confirmations : ```from deliveryconfirmation-service```
-* deliveryitems : ```from deliveryitem-service```
-* orders : ```from order-service```
+* deliveries :       ```from delivery-service```
+* confirmations :    ```from deliveryconfirmation-service```
+* deliveryitems :    ```from deliveryitem-service```
+* orders :           ```from order-service```
 * orderassignments : ```from orderassignment-service```
-* orderitems : ```from orderitem-service```
-* products : ```from product-service```
-* categories : ```from productcategory-service```
-* productitems : ```from productitem-service```
-* variations : ```from productvariation-service```
-* unitofmeasures : ```from unitofmeasure-service```
+* orderitems :       ```from orderitem-service```
+* products :         ```from product-service```
+* categories :       ```from productcategory-service```
+* productitems :     ```from productitem-service```
+* variations :       ```from productvariation-service```
+* unitofmeasures :   ```from unitofmeasure-service```
+* users :            ```from user-service```
 
 ###### WIP services
-* users : ```from user-service```
-* payments : ```from payment-service```
-* deliverystatus : ```from deliverystatus-service```
+* payments :         ```from payment-service```
+* deliverystatus :   ```from deliverystatus-service```
 
 ##### Development/Production environment propagation
 ```

@@ -26,7 +26,7 @@ async def create_variation(payload: VariationIn):
     return response
 
 
-@variationsapi.post("/", response_model=ProductVariationOut, status_code=201)
+@variationsapi.post("/products", response_model=ProductVariationOut, status_code=201)
 async def create_productvariation(payload: ProductVariationIn):
     if not is_variation_present(payload.variation_id):
         raise HTTPException(
@@ -61,9 +61,9 @@ async def get_variations():
     return await manager.variations()
 
 
-@variationsapi.get("/", response_model=List[ProductVariationOut])
+@variationsapi.get("/products", response_model=List[ProductVariationOut])
 async def get_productvariations():
-    return await manager.productvariations()
+    return await manager.products_variations()
 
 
 @variationsapi.get("/{id}/", response_model=VariationOut)

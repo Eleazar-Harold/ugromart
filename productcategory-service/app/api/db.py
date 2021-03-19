@@ -1,6 +1,7 @@
 import os
 
 from sqlalchemy import (
+    Boolean,
     Column,
     create_engine,
     ForeignKey,
@@ -28,12 +29,11 @@ categories = Table(
     Column("active", Boolean, nullable=False, default=True),
 )
 
-products_categories = Table(
+productscategories = Table(
     "product_category",
     metadata,
     Column("category_id", Integer, ForeignKey("category.id"), index=True),
     Column("product_id", Integer, nullable=False, index=True),
-    relationship("category", lazy="joined", cascade=True),
 )
 
 database = Database(DATABASE_URI)
