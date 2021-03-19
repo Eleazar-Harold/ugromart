@@ -1,8 +1,8 @@
-from app.api.models import DeliveryItemIn
+from app.api.models import DeliveryConfirmationIn
 from app.api.db import deliveryconfirmations, database
 
 
-async def create(payload: DeliveryItemIn):
+async def create(payload: DeliveryConfirmationIn):
     query = deliveryconfirmations.insert().values(**payload.dict())
     return await database.execute(query=query)
 
@@ -17,7 +17,7 @@ async def get_by(id):
     return await database.fetch_one(query=query)
 
 
-async def update(id: int, payload: DeliveryItemIn):
+async def update(id: int, payload: DeliveryConfirmationIn):
     query = (
         deliveryconfirmations.update()
         .where(deliveryconfirmations.c.id == id)

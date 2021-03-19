@@ -162,6 +162,111 @@ services:
       - POSTGRES_PASSWORD=${PG_PSWD_ORDE}
       - POSTGRES_DB=orderitem_db
 
+  product_svc:
+    build: ./product-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./product-service/:/app/
+    ports:
+      - 6000:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_PRDS}:${PG_PSWD_PRDS}@product_db/product_db
+    depends_on:
+      - product_db
+
+  product_db:
+    image: postgres:alpine
+    volumes:
+      - data_product:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_PRDS}
+      - POSTGRES_PASSWORD=${PG_PSWD_PRDS}
+      - POSTGRES_DB=product_db
+
+  category_svc:
+    build: ./productcategory-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./productcategory-service/:/app/
+    ports:
+      - 6002:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_PRDS}:${PG_PSWD_PRDS}@category_db/category_db
+    depends_on:
+      - product_db
+
+  category_db:
+    image: postgres:alpine
+    volumes:
+      - data_category:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_PRDS}
+      - POSTGRES_PASSWORD=${PG_PSWD_PRDS}
+      - POSTGRES_DB=category_db
+
+  productitem_svc:
+    build: ./productitem-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./productitem-service/:/app/
+    ports:
+      - 6004:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_PRDS}:${PG_PSWD_PRDS}@productitem_db/productitem_db
+    depends_on:
+      - productitem_db
+
+  productitem_db:
+    image: postgres:alpine
+    volumes:
+      - data_productitem:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_PRDS}
+      - POSTGRES_PASSWORD=${PG_PSWD_PRDS}
+      - POSTGRES_DB=productitem_db
+
+  variation_svc:
+    build: ./productvariation-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./productvariation-service/:/app/
+    ports:
+      - 6006:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_PRDS}:${PG_PSWD_PRDS}@variation_db/variation_db
+    depends_on:
+      - variation_db
+
+  variation_db:
+    image: postgres:alpine
+    volumes:
+      - data_variation:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_PRDS}
+      - POSTGRES_PASSWORD=${PG_PSWD_PRDS}
+      - POSTGRES_DB=variation_db
+
+  uom_svc:
+    build: ./unitofmeasure-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 4000
+    volumes:
+      - ./unitofmeasure-service/:/app/
+    ports:
+      - 7000:4000
+    environment:
+      - DATABASE_URI=postgresql://${PG_USER_UOMS}:${PG_PSWD_UOMS}@uom_db/uom_db
+    depends_on:
+      - uom_db
+
+  uom_db:
+    image: postgres:alpine
+    volumes:
+      - data_uom:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER_UOMS}
+      - POSTGRES_PASSWORD=${PG_PSWD_UOMS}
+      - POSTGRES_DB=uom_db
+
 
   nginx:
     image: nginx:latest
@@ -177,8 +282,17 @@ services:
       - order_svc
       - assignment_svc
       - orderitem_svc
+      - product_svc
+      - category_svc
+      - productitem_svc
+      - variation_svc
+      - uom_svc
 
 volumes:
+  data_product:
+  data_category:
+  data_productitem:
+  data_variation:
   data_order:
   data_orderitem:
   data_orderassignment:
@@ -186,3 +300,4 @@ volumes:
   data_delivery:
   data_confirmation:
   data_deliverystatus:
+  data_uom:

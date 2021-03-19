@@ -24,4 +24,4 @@ class DeliveryItemUpdate(DeliveryItemIn):
     amount: Optional[float] = None
     quantity: Optional[float] = None
     unit_price: Optional[float] = None
-    delivery_date: Optional[date] = None
+    delivery_date: Optional[datetime] = None
