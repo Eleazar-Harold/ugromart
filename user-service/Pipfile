@@ -12,6 +12,7 @@ asyncpg = "*"
 fastapi = "*"
 sqlalchemy = "*"
 uvicorn = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.7"
