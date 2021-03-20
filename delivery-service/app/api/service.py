@@ -1,9 +1,9 @@
 import os
 import httpx
 
-ORDER_SERVICE_URL = "http://localhost:8002/api/v1/orders/"
-DELIVERYSTATUS_SERVICE_URL = "http://localhost:8002/api/v1/deliverystatus/"
-PAYMENT_SERVICE_URL = "http://localhost:8002/api/v1/payments/"
+ORDER_SERVICE_URL = "http://localhost:4000/api/v1/orders/"
+DELIVERYSTATUS_SERVICE_URL = "http://localhost:3006/api/v1/deliverystatus/"
+PAYMENT_SERVICE_URL = "http://localhost:5000/api/v1/payments/"
 
 
 def is_payment_present(payment_id: int):
