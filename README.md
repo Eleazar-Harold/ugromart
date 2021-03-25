@@ -147,7 +147,7 @@ default http path: http://127.0.0.1/api/v1/{service}/docs
 * productitems :     ```from productitem-service```
 * variations :       ```from productvariation-service```
 * unitofmeasures :   ```from unitofmeasure-service```
-* users :            ```from user-service```
+* auth :            ```from user-service```
 
 ###### WIP services
 * payments :         ```from payment-service```

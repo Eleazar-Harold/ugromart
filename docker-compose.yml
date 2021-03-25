@@ -276,6 +276,7 @@ services:
       - 7070:4000
     environment:
       - DATABASE_URI=postgresql://${PG_USER_USR}:${PG_PSWD_USR}@user_db/user_db
+      - SECRET=${SECRET}
     depends_on:
       - user_db
 
