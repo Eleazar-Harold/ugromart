@@ -1,7 +1,7 @@
 import os
 import databases
 import sqlalchemy
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends, Response
 from fastapi_users import FastAPIUsers, models
 from fastapi_users.authentication import JWTAuthentication
 from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
@@ -55,13 +55,24 @@ def after_verification_request(user: UserDB, token: str, request: Request):
 
 
 jwt_authentication = JWTAuthentication(
-    secret=SECRET, lifetime_seconds=3600, tokenUrl="/auth/jwt/login",
+    secret=SECRET,
+    lifetime_seconds=3600,
+    tokenUrl="/auth/jwt/login",
 )
+
+
+@router.post("/auth/jwt/refresh")
+async def refresh_jwt(
+    response: Response, user=Depends(fastapi_users.get_current_active_user)
+):
+    return await jwt_authentication.get_login_response(user, response)
+
 
 app = FastAPI(
     openapi_url="/api/v1/auth/openapi.json",
     docs_url="/api/v1/auth/docs",
 )
+
 fastapi_users = FastAPIUsers(
     user_db,
     [jwt_authentication],
@@ -70,16 +81,19 @@ fastapi_users = FastAPIUsers(
     UserUpdate,
     UserDB,
 )
+
 app.include_router(
     fastapi_users.get_auth_router(jwt_authentication),
     prefix="/api/v1/auth/jwt",
     tags=["auth"],
 )
+
 app.include_router(
     fastapi_users.get_register_router(on_after_register),
     prefix="/api/v1/auth",
     tags=["auth"],
 )
+
 app.include_router(
     fastapi_users.get_reset_password_router(
         SECRET,
@@ -88,6 +102,7 @@ app.include_router(
     prefix="/api/v1/auth",
     tags=["auth"],
 )
+
 app.include_router(
     fastapi_users.get_verify_router(
         SECRET, after_verification_request=after_verification_request
@@ -95,6 +110,7 @@ app.include_router(
     prefix="/api/v1/auth",
     tags=["auth"],
 )
+
 app.include_router(
     fastapi_users.get_users_router(),
     prefix="/api/v1/auth/users",
